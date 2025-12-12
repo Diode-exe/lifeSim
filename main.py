@@ -9,17 +9,17 @@ class Person:
         self.energy = energy
         self.hobby = hobby or random.choice(["Python", "gaming", "reading", "ham radio"])
     
-    def live_a_year(self):
-        self.age += 1
+    def live_10_year(self):
+        self.age += 10
         self.energy -= random.randint(0, 3)  # living costs energy
-        print(f"{self.name} is now {self.age} years old and has {self.energy} energy.")
+        # print(f"{self.name} is now {self.age} years old and has {self.energy} energy.")
     
     def is_alive(self):
-        return self.energy > 0
+        return int(self.energy) > 0
     
     def have_child(self, child_name):
         # Child inherits hobby from parent
-        return Person(child_name, 0, 10, self.hobby)
+        return Person(len(people) + 1, child_name, 0, 10, self.hobby)
 
 year = 0
 
@@ -36,11 +36,11 @@ while people is not None:  # run the sim if people still exist
     new_people = []
     for person in people:
         if person.is_alive():
-            person.live_a_year()
+            person.live_10_year()
             
             # 20% chance to have a child each year
             if random.random() < 0.2 and len(people) <= 10:
-                child_name = f"{len(people)} {person.name.split('_')[0]}_child{random.randint(1,100)}"
+                child_name = f"{person.name.split('_')[0]}_child{random.randint(1,100)}"
                 new_people.append(person.have_child(child_name))
     
     # Add new children to the population
@@ -53,4 +53,5 @@ while people is not None:  # run the sim if people still exist
         print(f"Number: {person.count} {p.name} (age {p.age}, energy {p.energy})")
         time.sleep(0.5)
 
-    time.sleep(5)
+    input("Press Enter to play out the next year...")
+    year =+ 1
