@@ -1,0 +1,52 @@
+import random
+import time
+
+class Person:
+    def __init__(self, name, age=0, energy=10, hobby=None):
+        self.name = name
+        self.age = age
+        self.energy = energy
+        self.hobby = hobby or random.choice(["Python", "gaming", "reading"])
+    
+    def live_a_year(self):
+        self.age += 1
+        self.energy -= random.randint(0, 3)  # living costs energy
+        print(f"{self.name} is now {self.age} years old and has {self.energy} energy.")
+    
+    def is_alive(self):
+        return self.energy > 0
+    
+    def have_child(self, child_name):
+        # Child inherits hobby from parent
+        return Person(child_name, 0, 10, self.hobby)
+
+year = 0
+
+# Start with some people
+people = [
+    Person("Alice"),
+    Person("Bob"),
+    Person("Charlie")
+]
+
+while people is not None:  # run the sim if people still exist
+    print(f"\n--- Year {year+1} ---")
+    
+    new_people = []
+    for person in people:
+        if person.is_alive():
+            person.live_a_year()
+            
+            # 20% chance to have a child each year
+            if random.random() < 0.2:
+                child_name = f"{person.name}_child{random.randint(1,100)}"
+                new_people.append(person.have_child(child_name))
+    
+    # Add new children to the population
+    people.extend(new_people)
+    
+    # Remove people who ran out of energy
+    people = [p for p in people if p.is_alive()]
+
+    print(p for p in people)
+    time.sleep(5)
