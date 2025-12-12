@@ -39,7 +39,7 @@ while people is not None:  # run the sim if people still exist
             
             # 20% chance to have a child each year
             if random.random() < 0.2:
-                child_name = f"{person.name}_child{random.randint(1,100)}"
+                child_name = f"{person.name.split('_')[0]}_child{random.randint(1,100)}"
                 new_people.append(person.have_child(child_name))
     
     # Add new children to the population
@@ -48,5 +48,7 @@ while people is not None:  # run the sim if people still exist
     # Remove people who ran out of energy
     people = [p for p in people if p.is_alive()]
 
-    print(p for p in people)
+    for p in people:
+        print(f"{p.name} (age {p.age}, energy {p.energy})")
+
     time.sleep(5)
