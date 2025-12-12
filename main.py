@@ -2,8 +2,7 @@ import random
 import time
 
 class Person:
-    def __init__(self, count, name, age=0, energy=10, hobby=None):
-        self.count = count
+    def __init__(self, name, age=0, energy=10, hobby=None):
         self.name = name
         self.age = age
         self.energy = energy
@@ -19,18 +18,19 @@ class Person:
     
     def have_child(self, child_name):
         # Child inherits hobby from parent
-        return Person(len(people) + 1, child_name, 0, 10, self.hobby)
+        return Person(child_name, 0, 10, self.hobby)
 
 year = 0
+count = 0
 
 # Start with some people
 people = [
-    Person("1", "Alice"),
-    Person("2", "Bob"),
-    Person("3", "Charlie")
+    Person("Alice"),
+    Person("Bob"),
+    Person("Charlie")
 ]
 
-while people is not None:  # run the sim if people still exist
+while people:  # run the sim if people still exist
     print(f"\n--- Year {year+1} ---")
     
     new_people = []
@@ -39,7 +39,7 @@ while people is not None:  # run the sim if people still exist
             person.live_10_year()
             
             # 20% chance to have a child each year
-            if random.random() < 0.2 and len(people) <= 10:
+            if random.random() < 0.2 and len(people) <= 100:
                 child_name = f"{person.name.split('_')[0]}_child{random.randint(1,100)}"
                 new_people.append(person.have_child(child_name))
     
@@ -50,8 +50,9 @@ while people is not None:  # run the sim if people still exist
     people = [p for p in people if p.is_alive()]
 
     for p in people:
-        print(f"Number: {person.count} {p.name} (age {p.age}, energy {p.energy})")
+        count += 1
+        print(f"Number: {count} {p.name} (age {p.age}, energy {p.energy})")
         time.sleep(0.5)
 
     input("Press Enter to play out the next year...")
-    year =+ 1
+    year += 1
